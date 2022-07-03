@@ -1,4 +1,4 @@
-ARG OS=ltsc2019
+ARG OS=ltsc2022
 FROM mcr.microsoft.com/windows/servercore:${OS} as installer
 WORKDIR /apps
 USER ContainerUser
