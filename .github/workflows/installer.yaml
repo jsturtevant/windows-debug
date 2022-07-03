@@ -29,6 +29,6 @@ jobs:
           .\build-installer.ps1 -version $env:GITHUB_REF_NAME
       - name: push image
         if: ${{ github.event_name != 'pull_request' && github.ref_type == 'tag'	}}
-        shell: cmd
         run: |
-          docker image push ghcr.io/jsturtevant/debug-installer:${env:GITHUB_REF_NAME}
+          $tag=$env:GITHUB_REF_NAME
+          docker image push ghcr.io/jsturtevant/debug-installer:$tag
