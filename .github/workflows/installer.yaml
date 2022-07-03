@@ -1,0 +1,32 @@
+name: installer-image
+
+on:
+  push:
+    tags: ["installer-v*"]
+  pull_request:
+    branches:
+      - main
+
+permissions:
+  contents: read
+  packages: write
+
+jobs:
+  build:
+    runs-on: windows-2022
+    steps:
+      - name: login to GitHub container registry
+        uses: docker/login-action@v1
+        with:
+          registry: ghcr.io
+          username: ${{ github.repository_owner }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+      - uses: actions/checkout@v2
+      - name: build image
+        run: |
+          .\build-installer.ps1 -version $GITHUB_REF_NAME
+      - name: push image
+        if: ${{ github.event_name != 'pull_request' }}
+        shell: cmd
+        run: |
+          docker image push ghcr.io/jsturtevant/debug-installer:$GITHUB_REF_NAME

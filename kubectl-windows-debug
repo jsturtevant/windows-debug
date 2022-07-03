@@ -1,0 +1,38 @@
+#!/usr/bin/env bash
+
+image="ghcr.io/jsturtevant/windows-debug:latest"
+nodename="$1"
+
+if [[ "$(basename "$0")" == kubectl-* ]]; then # invoked as plugin
+    echo "Running as plugin"
+fi
+
+# sometime ns default is empty from this command so default if it is
+namespace=$(kubectl config view --minify --output 'jsonpath={..namespace}')
+if [ -z "$namespace" ]; then namespace="default"; fi;
+
+overrides=$(cat <<-JSON
+{
+  "spec": {
+    "nodeName": "$nodename",
+    "nodeSelector": {
+      "kubernetes.io/os": "windows"
+    },
+    "hostNetwork": true,
+    "securityContext": {
+      "windowsOptions": {
+        "hostProcess": true,
+        "runAsUserName": "NT AUTHORITY\\\\SYSTEM"
+      }
+    }
+  }
+}
+JSON
+)
+
+kubectl run windows-debug-${RANDOM} \
+  -it --rm -n $namespace --image $image \
+  --image-pull-policy=Always \
+  --restart=Never --overrides "$overrides" \
+  --pod-running-timeout=15m0s \
+  --command -- powershell
