@@ -31,4 +31,4 @@ jobs:
         if: ${{ github.event_name != 'pull_request' && github.ref_type == 'tag'	}}
         shell: cmd
         run: |
-          docker image push ghcr.io/jsturtevant/debug-installer:$GITHUB_REF_NAME
+          docker image push ghcr.io/jsturtevant/debug-installer:${env:GITHUB_REF_NAME}
