@@ -3,6 +3,8 @@ name: installer-image
 on:
   push:
     tags: ["installer-v*"]
+    branches: 
+      - main
   pull_request:
     branches:
       - main
@@ -26,7 +28,7 @@ jobs:
         run: |
           .\build-installer.ps1 -version $GITHUB_REF_NAME
       - name: push image
-        if: ${{ github.event_name != 'pull_request' }}
+        if: ${{ github.event_name != 'pull_request' && github.ref_type == 'tag'	}}
         shell: cmd
         run: |
           docker image push ghcr.io/jsturtevant/debug-installer:$GITHUB_REF_NAME
