@@ -1,6 +1,4 @@
 ARG OS=ltsc2022
 FROM mcr.microsoft.com/windows/servercore:${OS} as installer
-WORKDIR /apps
-USER ContainerUser
 RUN powershell /c "iex ""& {$(irm get.scoop.sh)} -RunAsAdmin"""
-RUN scoop install vim@8.2.2824 --global
+RUN scoop install vim@9.0 --global
