@@ -27,7 +27,7 @@ jobs:
       - name: push image
         if: ${{ github.event_name != 'pull_request' && github.ref_type == 'tag'	}}
         run: |
-          docker image push ghcr.io/jsturtevant/windows-debug:$GITHUB_REF_NAME
+          OUTPUT=registry VERSION=$GITHUB_REF_NAME ./build.sh
   release:
     needs: build-debug-image
     runs-on: ubuntu-latest

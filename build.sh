@@ -1,5 +1,6 @@
 #!/bin/bash
-
+set -x
+output=${OUTPUT:=local,dest=/tmp/}
 INSTALLER_VERSION="${INSTALLER_VERSION:=installer-v0.0.1}"
 version="${VERSION:=latest}"
 image="${IMAGE:=ghcr.io/jsturtevant/windows-debug:$version}"
@@ -13,7 +14,7 @@ trap on_exit EXIT
 docker buildx create --name img-builder --use --platform windows/and64
 docker buildx build \
     --platform windows/amd64 \
-    --output=type=registry \
+    --output=type=$output \
     --build-arg INSTALLER_VERSION="$INSTALLER_VERSION" \
     -f Dockerfile \
     -t "$image" .
