@@ -42,5 +42,5 @@ jobs:
       uses: softprops/action-gh-release@v1
       with:
         files: kubectl-windows-debug-${{ github.ref_name }}.tar.gz
-    - name: Update new version in krew-index
-      uses: rajatjindal/krew-release-bot@v0.0.43
+    # - name: Update new version in krew-index
+    #   uses: rajatjindal/krew-release-bot@v0.0.43
