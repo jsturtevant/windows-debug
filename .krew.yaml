@@ -10,13 +10,13 @@ spec:
       matchLabels:
         os: darwin
         arch: amd64
-    {{addURIAndSha "https://github.com/jsturtevant/windows-debug/releases/download/{{ .TagName }}/kubectl-windows-debug_{{ .TagName }}.tar.gz" .TagName }}
+    {{addURIAndSha "https://github.com/jsturtevant/windows-debug/releases/download/{{ .TagName }}/kubectl-windows-debug-{{ .TagName }}.tar.gz" .TagName }}
     bin: kubectl-windows-debug
   - selector:
       matchLabels:
         os: linux
         arch: amd64
-    {{addURIAndSha "https://github.com/jsturtevant/windows-debug/releases/download/{{ .TagName }}/kubectl-windows-debug_{{ .TagName }}.tar.gz" .TagName }}
+    {{addURIAndSha "https://github.com/jsturtevant/windows-debug/releases/download/{{ .TagName }}/kubectl-windows-debug-{{ .TagName }}.tar.gz" .TagName }}
     bin: kubectl-windows-debug
   shortDescription:  Launch a Windows host process pod that will give you access to the specified Windows node
   description: |
