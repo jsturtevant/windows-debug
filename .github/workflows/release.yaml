@@ -23,7 +23,7 @@ jobs:
       - uses: actions/checkout@v2
       - name: build image
         run: |
-          VERSION=$GITHUB_REF_NAME ./build.sh
+          sudo VERSION=$GITHUB_REF_NAME ./build.sh
       - name: push image
         if: ${{ github.event_name != 'pull_request' && github.ref_type == 'tag'	}}
         run: |
