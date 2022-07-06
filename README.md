@@ -8,7 +8,7 @@ krew install windows-debug
 kubectl windows debug <node-name>
 ```
 
-## Images with debug tools in them
+## Host process pods with debug tools
 
 The command uses an image with some basic debugging tools, like vim.  
 
@@ -24,4 +24,9 @@ kubectl windows debug <node-name> --image <image-name>
 ```
 
 ## Releasing
-Released with [krew release bot](https://github.com/rajatjindal/krew-release-bot).
+Released with [krew release bot](https://github.com/rajatjindal/krew-release-bot). 
+
+## local testing
+
+- https://krew.sigs.k8s.io/docs/developer-guide/testing-locally/
+- https://github.com/rajatjindal/krew-release-bot#testing-the-template-file
