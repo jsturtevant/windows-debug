@@ -5,7 +5,7 @@ krew plugin for launching a Windows host process pod that will give you access t
 
 ```bash
 krew install windows-debug
-kubectl windows debug <node-name>
+kubectl windows-debug <node-name>
 ```
 
 ## Host process pods with debug tools
@@ -20,7 +20,7 @@ The scratch image has a limitation that it can only be built with buildx.  Build
 If you don't want the extra tools or you have custom tools you want installed you can specify a custom image:
 
 ```bash
-kubectl windows debug <node-name> --image <image-name>
+kubectl windows-debug <node-name> --image <image-name>
 ```
 
 ## Releasing

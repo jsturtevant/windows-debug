@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-image="ghcr.io/jsturtevant/windows-debug:latest"
+image="ghcr.io/jsturtevant/windows-debug:v0.1.1"
 nodename="$1"
 
 if [[ "$(basename "$0")" == kubectl-* ]]; then # invoked as plugin
