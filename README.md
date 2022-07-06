@@ -24,4 +24,4 @@ kubectl windows debug <node-name> --image <image-name>
 ```
 
 ## Releasing
-Released with [goreleaser](https://goreleaser.com/) and [krew release bot](https://github.com/rajatjindal/krew-release-bot).
+Released with [krew release bot](https://github.com/rajatjindal/krew-release-bot).

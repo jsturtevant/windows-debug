@@ -1,4 +1,6 @@
 project_name: kubectl-windows-debug
+builds:
+- skip: true
 archives:
 - name_template: "{{ .ProjectName }}-{{ .Tag }}"
   format: tar.gz

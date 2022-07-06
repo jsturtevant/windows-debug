@@ -14,7 +14,7 @@ permissions:
   packages: write
 
 jobs:
-  build:
+  build-installer-image:
     runs-on: windows-2022
     steps:
       - name: login to GitHub container registry
