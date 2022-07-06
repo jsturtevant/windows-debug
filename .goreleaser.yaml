@@ -1,0 +1,13 @@
+project_name: kubectl-windows-debug
+archives:
+- name_template: "{{ .ProjectName }}-{{ .Tag }}"
+  format: tar.gz
+  files:
+  - LICENSE
+  - README.md
+  - kubectl-windows-debug
+  wrap_in_directory: false
+checksum:
+  name_template: 'checksums.txt'
+changelog:
+  sort: asc

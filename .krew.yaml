@@ -1,0 +1,26 @@
+apiVersion: krew.googlecontainertools.github.com/v1alpha2
+kind: Plugin
+metadata:
+  name: windows-debug
+spec:
+  version: {{ .TagName }}
+  homepage: https://github.com/jsturtevant/windows-debug
+  platforms:
+  - selector:
+      matchLabels:
+        os: darwin
+        arch: amd64
+    {{addURIAndSha "https://github.com/jsturtevant/windows-debug/releases/download/{{ .TagName }}/kubectl-windows-debug_{{ .TagName }}.tar.gz" .TagName }}
+    bin: kubectl-windows-debug
+  - selector:
+      matchLabels:
+        os: linux
+        arch: amd64
+    {{addURIAndSha "https://github.com/jsturtevant/windows-debug/releases/download/{{ .TagName }}/kubectl-windows-debug_{{ .TagName }}.tar.gz" .TagName }}
+    bin: kubectl-windows-debug
+  shortDescription:  Launch a Windows host process pod that will give you access to the specified Windows node
+  description: |
+    Usage:
+      kubectl windows debug <node-name>
+      krew plugin for launching a Windows host process pod that will give you access to the specified node and provide a few useful 
+      utilities for debugging Windows processes.
