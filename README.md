@@ -1,6 +1,8 @@
 # windows-debug
 krew plugin for launching a Windows host process pod that will give you access to the specified Windows node.
 
+![gif of using krew to install and run as kubectl plugin](./kubectl-windows-debug.gif)
+
 ## Usage
 
 ```bash
