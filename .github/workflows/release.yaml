@@ -11,25 +11,7 @@ on:
         - main
 
 jobs:
-  build-debug-image:
-    runs-on: ubuntu-latest
-    steps:
-      - name: login to GitHub container registry
-        uses: docker/login-action@v1
-        with:
-          registry: ghcr.io
-          username: ${{ github.repository_owner }}
-          password: ${{ secrets.GITHUB_TOKEN }}
-      - uses: actions/checkout@v2
-      - name: build image
-        run: |
-          sudo VERSION=$GITHUB_REF_NAME ./build.sh
-      - name: push image
-        if: ${{ github.event_name != 'pull_request' && github.ref_type == 'tag'	}}
-        run: |
-          OUTPUT=registry VERSION=$GITHUB_REF_NAME ./build.sh
   release:
-    needs: build-debug-image
     runs-on: ubuntu-latest
     if: ${{ github.event_name != 'pull_request' && github.ref_type == 'tag'	}}
     steps:
@@ -42,5 +24,5 @@ jobs:
       uses: softprops/action-gh-release@v1
       with:
         files: kubectl-windows-debug-${{ github.ref_name }}.tar.gz
-    # - name: Update new version in krew-index
-    #   uses: rajatjindal/krew-release-bot@v0.0.43
+    - name: Update new version in krew-index
+      uses: rajatjindal/krew-release-bot@v0.0.43
