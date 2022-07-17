@@ -1,7 +1,7 @@
 #!/bin/bash
 set -x
 output=${OUTPUT:=local,dest=/tmp/}
-INSTALLER_VERSION="${INSTALLER_VERSION:=installer-v0.0.1}"
+INSTALLER_VERSION="${INSTALLER_VERSION:=latest}"
 version="${VERSION:=latest}"
 image="${IMAGE:=ghcr.io/jsturtevant/windows-debug:$version}"
 

@@ -80,7 +80,7 @@ jobs:
       - name: get version from tag
         if: ${{ github.event_name != 'pull_request' && github.ref_type == 'tag'	}}
         run: |
-          imageversion=echo $GITHUB_REF_NAME | sed 's/^image-//'
+          imageversion=$(echo $GITHUB_REF_NAME | sed 's/^image-//')
           echo "IMAGE_VERSION=$imageversion" >> $GITHUB_ENV
       - name: get version for PR
         if: ${{ github.event_name == 'pull_request' }}
