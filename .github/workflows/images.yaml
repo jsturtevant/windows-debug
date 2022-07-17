@@ -6,10 +6,18 @@ on:
   pull_request:
     branches:
       - main
+    path:
+      - 'images/**'
+      - '.github/workflows/images.yaml'
+      - '.github/workflows/cleanup.yaml'
 
 permissions:
   packages: write
   pull-requests: write
+
+defaults:
+  run:
+    working-directory: images
 
 jobs:
   build-installer-image:
