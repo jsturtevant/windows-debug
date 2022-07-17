@@ -1,5 +1,5 @@
 ARG INSTALLER_VERSION="${latest}"
-FROM ghcr.io/jsturtevant/debug-installer:${INSTALLER_VERSION} as installer
+FROM ghcr.io/jsturtevant/debug-installer-cache:${INSTALLER_VERSION} as installer
 
 FROM ghcr.io/marosset/host-process-scratch-image:latest AS runtime
 WORKDIR /apps
