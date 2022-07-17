@@ -3,6 +3,10 @@ krew plugin for launching a Windows host process pod that will give you access t
 
 ![gif of using krew to install and run as kubectl plugin](./kubectl-windows-debug.gif)
 
+To use this plugin you will need:
+      - kubernetes 1.22+ (with the [WindowsHostProcessContainers](https://kubernetes.io/docs/tasks/configure-pod-container/create-hostprocess-pod/) feature-gate enabled)
+      - containerd 1.6+ as the runtime
+
 ## Usage
 
 ```bash
