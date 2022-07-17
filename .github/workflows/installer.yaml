@@ -1,8 +1,8 @@
-name: installer-image
+name: image
 
 on:
   push:
-    tags: ["installer-v*"]
+    tags: ["image-v*"]
     branches: 
       - main
   pull_request:
@@ -10,8 +10,8 @@ on:
       - main
 
 permissions:
-  contents: read
   packages: write
+  pull-requests: write
 
 jobs:
   build-installer-image:
@@ -24,11 +24,69 @@ jobs:
           username: ${{ github.repository_owner }}
           password: ${{ secrets.GITHUB_TOKEN }}
       - uses: actions/checkout@v2
+      # set image version based on event type
+      - name: get version from tag
+        if: ${{ github.event_name != 'pull_request' && github.ref_type == 'tag'	}}
+        run: |
+          $imageversion=$env:GITHUB_REF_NAME -replace "image-", "" 
+          "IMAGE_VERSION=$imageversion" >> $env:GITHUB_ENV
+      - name: get version for PR
+        if: ${{ github.event_name == 'pull_request' }}
+        run: |
+          "IMAGE_VERSION=pr-${{ github.event.number }}" >> $env:GITHUB_ENV
+      # build and publish image 
+      # need to always publish this image so can use it to build the debug image for verification
       - name: build image
         run: |
-          .\build-installer.ps1 -version $env:GITHUB_REF_NAME
+          echo $env:IMAGE_VERSION
+          .\build-installer.ps1 -version $env:IMAGE_VERSION
+      - name: push image
+        run: |
+          echo $env:IMAGE_VERSION
+          $tag=$env:IMAGE_VERSION
+          docker image push ghcr.io/jsturtevant/debug-installer:$tag
+      - name: comment on PR
+        if: ${{ github.event_name == 'pull_request' }}
+        env: 
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          $comment=@"
+          Thank you for the contribution :rocket: The debug installer cache image has been published to a temporary repository.
+
+          You can use it by referencing: ``ghcr.io/jsturtevant/debug-installer:$env:IMAGE_VERSION``.
+          
+          It will be removed in 24 hours. 
+          "@
+
+          gh api --method POST -H "Accept: application/vnd.github+json" /repos/jsturtevant/windows-debug/issues/${{ github.event.pull_request.number }}/comments -f body="$comment"
+  build-debug-image:
+    needs: build-installer-image
+    runs-on: ubuntu-latest
+    steps:
+      - name: login to GitHub container registry
+        uses: docker/login-action@v1
+        with:
+          registry: ghcr.io
+          username: ${{ github.repository_owner }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+      - uses: actions/checkout@v2
+      # set image version based on event type
+      - name: get version from tag
+        if: ${{ github.event_name != 'pull_request' && github.ref_type == 'tag'	}}
+        run: |
+          imageversion=echo $GITHUB_REF_NAME | sed 's/^image-//'
+          echo "IMAGE_VERSION=$imageversion" >> $GITHUB_ENV
+      - name: get version for PR
+        if: ${{ github.event_name == 'pull_request' }}
+        run: |
+          echo "IMAGE_VERSION=pr-${{ github.event.number }}" >> $GITHUB_ENV
+      # build and publish image 
+      - name: build image
+        run: |
+          echo $IMAGE_VERSION
+          sudo VERSION=$IMAGE_VERSION INSTALLER_VERSION=$IMAGE_VERSION ./build.sh
       - name: push image
         if: ${{ github.event_name != 'pull_request' && github.ref_type == 'tag'	}}
         run: |
-          $tag=$env:GITHUB_REF_NAME
-          docker image push ghcr.io/jsturtevant/debug-installer:$tag
+          echo $IMAGE_VERSION
+          OUTPUT=registry VERSION=$IMAGE_VERSION INSTALLER_VERSION=$IMAGE_VERSION ./build.sh
