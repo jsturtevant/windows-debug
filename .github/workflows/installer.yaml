@@ -3,8 +3,6 @@ name: image
 on:
   push:
     tags: ["image-v*"]
-    branches: 
-      - main
   pull_request:
     branches:
       - main
@@ -39,12 +37,12 @@ jobs:
       - name: build image
         run: |
           echo $env:IMAGE_VERSION
-          .\build-installer.ps1 -version $env:IMAGE_VERSION
+          .\build-installer-cache.ps1 -version $env:IMAGE_VERSION
       - name: push image
         run: |
           echo $env:IMAGE_VERSION
           $tag=$env:IMAGE_VERSION
-          docker image push ghcr.io/jsturtevant/debug-installer:$tag
+          docker image push ghcr.io/jsturtevant/debug-installer-cache:$tag
       - name: comment on PR
         if: ${{ github.event_name == 'pull_request' }}
         env: 
@@ -53,7 +51,7 @@ jobs:
           $comment=@"
           Thank you for the contribution :rocket: The debug installer cache image has been published to a temporary repository.
 
-          You can use it by referencing: ``ghcr.io/jsturtevant/debug-installer:$env:IMAGE_VERSION``.
+          You can use it by referencing: ``ghcr.io/jsturtevant/debug-installer-cache:$env:IMAGE_VERSION``.
           
           It will be removed in 24 hours. 
           "@

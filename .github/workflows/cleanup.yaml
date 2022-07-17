@@ -22,14 +22,14 @@ jobs:
           echo "deleting images that start with 'pr-'"
           images=$(gh api \
             -H "Accept: application/vnd.github+json" \
-            /users/jsturtevant/packages/container/debug-installer/versions \
+            /users/jsturtevant/packages/container/debug-installer-cache/versions \
             --jq '.[] | select(.metadata.container.tags | any(startswith("pr-"))) | .id')
 
           for image in $images; do
             # check if image is older than 20hrs
             image_age=$(gh api \
               -H "Accept: application/vnd.github+json" \
-              /users/jsturtevant/packages/container/debug-installer/versions/$image \
+              /users/jsturtevant/packages/container/debug-installer-cache/versions/$image \
               --jq '.updated_at')
 
             if [[ $(date -d "$image_age" +%s) > $(date -d "24 hours ago" +%s) ]]; then
@@ -39,5 +39,5 @@ jobs:
 
             echo "deleting image $image"
             # https://github.com/cli/cli/issues/3937
-            echo -n | gh api --method DELETE -H "Accept: application/vnd.github+json" /users/jsturtevant/packages/container/debug-installer/versions/$image --input -
+            echo -n | gh api --method DELETE -H "Accept: application/vnd.github+json" /users/jsturtevant/packages/container/debug-installer-cache/versions/$image --input -
           done
