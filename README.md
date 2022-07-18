@@ -36,3 +36,11 @@ Released with [krew release bot](https://github.com/rajatjindal/krew-release-bot
 
 - https://krew.sigs.k8s.io/docs/developer-guide/testing-locally/
 - https://github.com/rajatjindal/krew-release-bot#testing-the-template-file
+
+## Use as standalone without plugin
+
+You don't have to install this as a plugin via krew.  You can also download and invoke the tool directly:
+
+```bash
+./kubectl-windows-debug <node-name>
+```
