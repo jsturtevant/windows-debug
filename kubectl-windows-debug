@@ -1,11 +1,39 @@
 #!/usr/bin/env bash
 
+# default image
 image="ghcr.io/jsturtevant/windows-debug:v0.1.1"
+
+POSITIONAL=()
+while [[ $# -gt 0 ]]
+do
+key="$1"
+
+case $key in
+  -h|--help)
+    echo "Windows node access via kubectl"
+    echo " "
+    echo "kubectl windows-debug [options]"
+    echo " "
+    echo "options:"
+    echo "-h,    --help               Show brief help"
+    echo "-i,    --image              use custom image"
+    exit 0
+    ;;
+  -i | --image)
+  image="$2"
+  shift # past argument
+  shift # past value
+  ;;
+  *)    # unknown option
+  POSITIONAL+=("$1") 
+  shift # past argument
+  ;;
+esac
+done
+set -- "${POSITIONAL[@]}" # restore positional parameters
 nodename="$1"
 
-if [[ "$(basename "$0")" == kubectl-* ]]; then # invoked as plugin
-    echo "Running as plugin"
-fi
+echo "Running on node '$nodename' with image '$image'"
 
 # sometime ns default is empty from this command so default if it is
 namespace=$(kubectl config view --minify --output 'jsonpath={..namespace}')
