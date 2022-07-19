@@ -20,10 +20,10 @@ spec:
     bin: kubectl-windows-debug
   shortDescription:  Windows node access via kubectl
   description: |
-      kubectl plugin for launching a Windows pod that will give you access to the specified node 
+      kubectl plugin for launching a Windows pod that will give you access to the specified node
       and provide a few useful utilities for debugging Windows processes.
       Access to the node is provided by a Windows Host Process Containers feature in Kubernetes.
-      
+
       To use this plugin you will need:
       - kubernetes 1.22+ (with the WindowsHostProcessContainers feature-gate enabled)
       - containerd 1.6+ as the runtime
