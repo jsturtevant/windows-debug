@@ -1,1 +1,3 @@
 /dist
+/manifest.yaml
+/kubectl-windows-debug-*.tar.gz

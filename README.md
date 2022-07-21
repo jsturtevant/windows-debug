@@ -30,9 +30,45 @@ kubectl windows-debug <node-name> --image <image-name>
 ```
 
 ## Releasing
+
+### Images
+
+Modify the images in `images` folder and them to main branch.
+
+The run:
+
+```bash
+git checkout main
+git tag image-v<nextversion>
+git push --tags
+```
+
+### plugin
+
 Released with [krew release bot](https://github.com/rajatjindal/krew-release-bot). 
 
-## local testing
+
+```bash
+git checkout main
+git tag v<nextversion>
+git push --tags
+```
+
+The automation will create a github release and open a PR in https://github.com/kubernetes-sigs/krew-index. As long as only the version is changed, the PR will be automatically merged.
+
+## test plugin locally
+
+```bash
+# generate manifest
+docker run -v $(pwd)/.krew.yaml:/tmp/template-file.yaml rajatjindal/krew-release-bot:v0.0.43 krew-release-bot template --tag <github-tag> --template-file /tmp/template-file.yaml > manifest.yaml
+
+
+# install local package
+curl -LO <release-package-url>/kubectl-windows-debug-<tag0-version>.tar.gz
+kubectl krew install --manifest=manifest.yaml  --archive=kubectl-windows-debug-latest.tar.gz
+```
+
+See the following for details:
 
 - https://krew.sigs.k8s.io/docs/developer-guide/testing-locally/
 - https://github.com/rajatjindal/krew-release-bot#testing-the-template-file
