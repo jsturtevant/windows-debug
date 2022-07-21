@@ -12,7 +12,7 @@ case $key in
   -h|--help)
     echo "Windows node access via kubectl"
     echo " "
-    echo "kubectl windows-debug [options]"
+    echo "kubectl windows-debug <windows-node-name> [options]"
     echo " "
     echo "options:"
     echo "-h,    --help               Show brief help"
