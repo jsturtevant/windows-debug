@@ -8,6 +8,7 @@ on:
 permissions:
   contents: read
   packages: write
+  packages: delete
 
 jobs:
   # use gh cli to delete container images from registry when it is pr event
