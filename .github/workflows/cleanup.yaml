@@ -18,6 +18,6 @@ jobs:
       # delete images
       - name: delete images
         env:
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GH_TOKEN: ${{ secrets.DELETE_PAT }}
         run: |
           ./images/clean-up.sh

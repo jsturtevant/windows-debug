@@ -1,5 +1,4 @@
 #!/bin/bash
-set -x
 
 image="${IMAGE:-debug-installer-cache}"
 
