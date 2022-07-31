@@ -31,6 +31,4 @@ for id in $imageid; do
     echo -n | gh api --method DELETE -H "Accept: application/vnd.github+json" \
         /users/jsturtevant/packages/container/${image}/versions/$id \
         --input -
-
-    exit
 done
