@@ -5,10 +5,6 @@ on:
     - cron:  '4 */23 * * *'
   workflow_dispatch:
 
-permissions:
-  contents: read
-  packages: delete
-
 jobs:
   # use gh cli to delete container images from registry when it is pr event
   clean-up-pr-images:
