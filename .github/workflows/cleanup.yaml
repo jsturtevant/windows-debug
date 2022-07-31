@@ -14,6 +14,7 @@ jobs:
   clean-up-pr-images:
     runs-on: ubuntu-latest
     steps:
+      - uses: actions/checkout@v2
       # delete images
       - name: delete images
         env:
