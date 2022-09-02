@@ -1,4 +1,9 @@
 ARG OS=ltsc2022
 FROM mcr.microsoft.com/windows/servercore:${OS} as installer
+
+# Install VIM via https://scoop.sh/
 RUN powershell /c "iex ""& {$(irm get.scoop.sh)} -RunAsAdmin"""
 RUN scoop install vim@9.0 --global
+
+# Get ntwork debugging scripts
+RUN powershell ./content/Get-NetworkDebuggingScripts.ps1 -dest /debug/net/
