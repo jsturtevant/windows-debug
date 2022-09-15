@@ -6,3 +6,6 @@ WORKDIR /apps
 ENV PATH="%CONTAINER_SANDBOX_MOUNT_POINT%\apps\vim;%CONTAINER_SANDBOX_MOUNT_POINT%\apps\sysinternals;C:\Windows\system32;C:\Windows"
 
 COPY --from=installer /ProgramData/scoop/apps/vim/9.0 ./vim/
+COPY --from=installer /content/ContainerPlatform.wprp .
+COPY --from=installer /content/collect-hcs-traces.md .
+COPY --from=installer /debug/net ./network

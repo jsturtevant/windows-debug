@@ -1,0 +1,109 @@
+<?xml version="1.0"?>
+<WindowsPerformanceRecorder Version="1">
+  <Profiles>
+
+    <EventCollector Id="Collector" Name="Collector">
+      <BufferSize Value="256"/>
+      <Buffers Value="1024"/>
+    </EventCollector>
+
+    <EventProvider Id="wincni" Name="c822b598-f4cc-5a72-7933-ce2a816d033f"/>
+    <EventProvider Id="Moby" Name="6996f090-c5de-5082-a81e-5841acc3a635"/>
+    <EventProvider Id="Microsoft.Virtualization.GCSRelay" Name="0b54a277-36b7-5c08-e104-a68e85df8bc9"/>
+    <EventProvider Id="Microsoft.Virtualization.NCProxy" Name="cf9f01fe-87b3-568d-ecef-9f54b7c5ff70">
+      <CaptureStateOnSave>
+        <Keyword Value="0x0"/>
+      </CaptureStateOnSave>
+      <CaptureStateOnDemand>
+        <Keyword Value="0x0"/>
+      </CaptureStateOnDemand>
+    </EventProvider>
+    <EventProvider Id="Microsoft.Virtualization.RunHCS" Name="0B52781F-B24D-5685-DDF6-69830ED40EC3">
+      <CaptureStateOnSave>
+        <Keyword Value="0x0"/>
+      </CaptureStateOnSave>
+      <CaptureStateOnDemand>
+        <Keyword Value="0x0"/>
+      </CaptureStateOnDemand>
+    </EventProvider>
+    <EventProvider Id="ContainerD" Name="2acb92c0-eb9b-571a-69cf-8f3410f383ad">
+      <CaptureStateOnSave>
+        <Keyword Value="0x0"/>
+      </CaptureStateOnSave>
+      <CaptureStateOnDemand>
+        <Keyword Value="0x0"/>
+      </CaptureStateOnDemand>
+    </EventProvider>
+    <EventProvider Id="Microsoft.Windows.HyperV.Compute" Name="80CE50DE-D264-4581-950D-ABADEEE0D340"/>
+    <EventProvider Id="Microsoft-Windows-Hyper-V-Compute" Name="17103E3F-3C6E-4677-BB17-3B267EB5BE57"/>
+    <EventProvider Id="Microsoft.Windows.HyperV.Worker" Name="06C601B3-6957-4F8C-A15F-74875B24429D"/>
+    <EventProvider Id="Microsoft-Windows-Hyper-V-Worker" Name="51ddfa29-d5c8-4803-be4b-2ecb715570fe"/>
+    <EventProvider Id="Microsoft-Windows-Hyper-V-ComputeLib" Name="AF7FD3A7-B248-460C-A9F5-FEC39EF8468C"/>
+    <EventProvider Id="Microsoft.Windows.HyperV.GuestCrashServices" Name="9a02f67c-133d-58be-ecad-0d891d8b6fd1"/>
+    <EventProvider Id="Microsoft-Windows-Hyper-V-CrashDump" Name="C7C9E4F7-C41D-5C68-F104-D72A920016C7"/>
+    <EventProvider Id="Microsoft-Windows-Hyper-V-Chipset" Name="de9ba731-7f33-4f44-98c9-6cac856b9f83"/>
+    <EventProvider Id="Microsoft-Windows-Host-Network-Service" Name="0C885E0D-6EB6-476C-A048-2457EED3A5C1"/>
+
+    <EventProvider Id="Microsoft-Windows-VHDMP" Name="E2816346-87F4-4F85-95C3-0C79409AA89D"/>
+    <EventProvider Id="Microsoft.Windows.HyperV.Vhdmp" Name="6141E9F3-E0CF-51EE-244C-063CA47EEE12"/>
+    <EventProvider Id="Microsoft.Windows.HyperV.VhdmpTrace" Name="DC284FB3-1EAB-4854-828A-B25417280280"/>
+    <EventProvider Id="Microsoft.Windows.HyperV.Storvsp" Name="544D0787-9F6D-432E-8414-E035A8B0541D"/>
+    <EventProvider Id="Microsoft.Windows.HyperV.Storage" Name="2174371B-D5F6-422B-BFC4-BB6F97DDAA84"/>
+    <EventProvider Id="Microsoft.Windows.HyperV.StorageActivity" Name="C7AD62C6-5C99-5A1B-BBC4-0821AE5B765E"/>
+    <EventProvider Id="Microsoft-Windows-VIRTDISK" Name="4D20DF22-E177-4514-A369-F1759FEEDEB3"/>
+    <EventProvider Id="Microsoft-Windows-VStack-EmulatedStor" Name="86E15E01-EDF1-4AC7-89CF-B19563FD6894"/>
+    <EventProvider Id="Microsoft-Windows-Hyper-V-StorageVSP" Name="10B3D268-9782-49A4-AACC-A93C5482CB6F"/>
+    <EventProvider Id="Microsoft-Windows-VStack-SynthStor" Name="EDACD782-2564-4497-ADE6-7199377850F2"/>
+
+    <Profile
+      Id="ContainerPlatform.Verbose.Memory"
+      Name="ContainerPlatform"
+      Description="Events related to the container platform on Windows"
+      LoggingMode="Memory"
+      DetailLevel="Verbose"
+      >
+      <Collectors>
+        <EventCollectorId Value="Collector">
+          <EventProviders>
+            <EventProviderId Value="wincni"/>
+            <EventProviderId Value="Moby"/>
+            <EventProviderId Value="Microsoft.Virtualization.GCSRelay"/>
+            <EventProviderId Value="Microsoft.Virtualization.RunHCS"/>
+            <EventProviderId Value="Microsoft.Virtualization.NCProxy"/>
+            <EventProviderId Value="ContainerD"/>
+            <EventProviderId Value="Microsoft.Windows.HyperV.Compute"/>
+            <EventProviderId Value="Microsoft-Windows-Hyper-V-Compute"/>
+            <EventProviderId Value="Microsoft.Windows.HyperV.Worker"/>
+            <EventProviderId Value="Microsoft-Windows-Hyper-V-Worker"/>
+            <EventProviderId Value="Microsoft-Windows-Hyper-V-ComputeLib"/>
+            <EventProviderId Value="Microsoft.Windows.HyperV.GuestCrashServices"/>
+            <EventProviderId Value="Microsoft-Windows-Hyper-V-CrashDump"/>
+            <EventProviderId Value="Microsoft-Windows-Hyper-V-Chipset"/>
+            <EventProviderId Value="Microsoft-Windows-Host-Network-Service"/>
+
+            <EventProviderId Value="Microsoft-Windows-VHDMP"/>
+            <EventProviderId Value="Microsoft.Windows.HyperV.Vhdmp"/>
+            <EventProviderId Value="Microsoft.Windows.HyperV.VhdmpTrace"/>
+            <EventProviderId Value="Microsoft.Windows.HyperV.Storvsp"/>
+            <EventProviderId Value="Microsoft.Windows.HyperV.Storage"/>
+            <EventProviderId Value="Microsoft.Windows.HyperV.StorageActivity"/>
+            <EventProviderId Value="Microsoft-Windows-VIRTDISK"/>
+            <EventProviderId Value="Microsoft-Windows-VStack-EmulatedStor"/>
+            <EventProviderId Value="Microsoft-Windows-Hyper-V-StorageVSP"/>
+            <EventProviderId Value="Microsoft-Windows-VStack-SynthStor"/>
+          </EventProviders>
+        </EventCollectorId>
+      </Collectors>
+    </Profile>
+
+    <Profile
+      Id="ContainerPlatform.Verbose.File"
+      Name="ContainerPlatform"
+      Description="Events related to the container platform on Windows"
+      LoggingMode="File"
+      DetailLevel="Verbose"
+      Base="ContainerPlatform.Verbose.Memory"
+      />
+
+  </Profiles>
+</WindowsPerformanceRecorder>
