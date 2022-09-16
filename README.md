@@ -45,8 +45,9 @@ git push --tags
 
 ### plugin
 
-Released with [krew release bot](https://github.com/rajatjindal/krew-release-bot). 
+Update the default image in [kubectl-windows-debug](/kubectl-windows-debug).
 
+Create a new release (Release is managed [krew release bot](https://github.com/rajatjindal/krew-release-bot)).
 
 ```bash
 git checkout main
