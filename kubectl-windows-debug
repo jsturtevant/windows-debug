@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 # default image
-image="ghcr.io/jsturtevant/windows-debug:v0.1.3"
+image="ghcr.io/jsturtevant/windows-debug:v1.0.0"
 
 POSITIONAL=()
 while [[ $# -gt 0 ]]
