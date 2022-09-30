@@ -81,3 +81,10 @@ You don't have to install this as a plugin via krew.  You can also download and 
 ```bash
 ./kubectl-windows-debug <node-name>
 ```
+
+You can also use it as a manual plugin by coping it to a location on your `PATH`:
+
+```
+cp kubectl-windows-debug /usr/local/bin
+kubectl windows-debug
+```
