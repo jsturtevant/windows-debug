@@ -9,7 +9,6 @@ spec:
   - selector:
       matchLabels:
         os: darwin
-        arch: amd64
     {{addURIAndSha "https://github.com/jsturtevant/windows-debug/releases/download/{{ .TagName }}/kubectl-windows-debug-{{ .TagName }}.tar.gz" .TagName }}
     bin: kubectl-windows-debug
   - selector:
