@@ -17,8 +17,6 @@ case $key in
     echo "options:"
     echo "-h,    --help               Show brief help"
     echo "-i,    --image              use custom image"
-    echo "-r,    --requests           use values for requests (cpu, memory)"
-    echo "-l,    --limits             use values for limits (cpu, memory)"
     exit 0
     ;;
   -i | --image)
@@ -50,18 +48,16 @@ echo "Running on node '$nodename' with image '$image'"
 echo "Running with requests '$requests' and limits '$limits'"
 
 if [[ -n "${requests}" ]]; then
-    request_json=$(echo $requests | awk 'BEGIN{FS="[=,]"}{printf "{\"cpu\":\"%s\",\"memory\":\"%s\"}", $2, $4}')
+    request_json=$(echo $requests | awk 'BEGIN{FS="[=,]"}{printf "{\"%s\":\"%s\",\"%s\":\"%s\"}", $1, $2, $3, $4}')
 else
     request_json="{}"
 fi
 
 if [[ -n "${limits}" ]]; then
-    limit_json=$(echo $limits | awk 'BEGIN{FS="[=,]"}{printf "{\"cpu\":\"%s\",\"memory\":\"%s\"}", $2, $4}')
+    limit_json=$(echo $limits | awk 'BEGIN{FS="[=,]"}{printf "{\"%s\":\"%s\",\"%s\":\"%s\"}", $1, $2, $3, $4}')
 else
     limit_json="{}"
 fi
-
-echo "JSON R $request_json JSON L $limit_json"
 
 # sometime ns default is empty from this command so default if it is
 namespace=$(kubectl config view --minify --output 'jsonpath={..namespace}')
