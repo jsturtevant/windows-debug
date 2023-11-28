@@ -23,12 +23,6 @@ jobs:
   build-installer-image:
     runs-on: windows-2022
     steps:
-      - name: login to GitHub container registry
-        uses: docker/login-action@v1
-        with:
-          registry: ghcr.io
-          username: ${{ github.repository_owner }}
-          password: ${{ secrets.GITHUB_TOKEN }}
       - uses: actions/checkout@v2
       # set image version based on event type
       - name: get version from tag
@@ -46,22 +40,30 @@ jobs:
         run: |
           echo $env:IMAGE_VERSION
           .\build-installer-cache.ps1 -version $env:IMAGE_VERSION
-      - name: push image
+      - name: save image
         run: |
           echo $env:IMAGE_VERSION
           $tag=$env:IMAGE_VERSION
-          docker image push ghcr.io/jsturtevant/debug-installer-cache:$tag
+          docker image save -o ./installer-cache.tar ghcr.io/jsturtevant/debug-installer-cache:$tag
+          ls
+      - name: Upload artifacts
+        uses: actions/upload-artifact@master
+        with:
+          name: installer-cache-image
+          path: images/installer-cache.tar
       - name: comment on PR
         if: ${{ github.event_name == 'pull_request' }}
         env: 
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           $comment=@"
-          Thank you for the contribution :rocket: The debug installer cache image has been published to a temporary repository.
-
-          You can use it by referencing: ``ghcr.io/jsturtevant/debug-installer-cache:$env:IMAGE_VERSION``.
+          Thank you for the contribution :rocket: 
           
-          It will be removed in 24 hours. 
+          The debug installer cache image has been published the PR's artifacts. You can download it via the instructions at https://docs.github.com/en/actions/managing-workflow-runs/downloading-workflow-artifacts
+
+          Using gh cli to download it: ``gh run download $env:GITHUB_RUN_ID -n installer-cache-image``. Note it is a LARGE file :elephant:.
+
+          Import it with ``docker load -i installer-cache.tar``.
           "@
 
           gh api --method POST -H "Accept: application/vnd.github+json" /repos/jsturtevant/windows-debug/issues/${{ github.event.pull_request.number }}/comments -f body="$comment"
@@ -69,13 +71,16 @@ jobs:
     needs: build-installer-image
     runs-on: ubuntu-latest
     steps:
-      - name: login to GitHub container registry
-        uses: docker/login-action@v1
-        with:
-          registry: ghcr.io
-          username: ${{ github.repository_owner }}
-          password: ${{ secrets.GITHUB_TOKEN }}
       - uses: actions/checkout@v2
+      - name: Download cache image
+        uses: actions/download-artifact@master
+        with:
+          name: installer-cache-image
+          path: images
+      - name: import cache image
+        run: |
+          ls 
+          docker load -i installer-cache.tar
       # set image version based on event type
       - name: get version from tag
         if: ${{ github.event_name != 'pull_request' && github.ref_type == 'tag'	}}
