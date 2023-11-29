@@ -17,6 +17,8 @@ case $key in
     echo "options:"
     echo "-h,    --help               Show brief help"
     echo "-i,    --image              use custom image"
+    echo "-r,    --requests           set resource requests for the debug container (e.g., CPU and memory)"
+    echo "-l,    --limits             set resource limit for the debug container (e.g., maximum CPU and memory)"
     exit 0
     ;;
   -i | --image)
@@ -24,6 +26,16 @@ case $key in
   shift # past argument
   shift # past value
   ;;
+  -r|--requests)
+    requests="$2"
+    shift # past argument
+    shift # past value
+    ;;
+  -l|--limits)
+    limits="$2"
+    shift # past argument
+    shift # past value
+    ;;
   *)    # unknown option
   POSITIONAL+=("$1") 
   shift # past argument
@@ -35,13 +47,39 @@ nodename="$1"
 
 echo "Running on node '$nodename' with image '$image'"
 
+echo "Running with requests '$requests' and limits '$limits'"
+
+if [[ -n "${requests}" ]]; then
+    request_json=$(echo $requests | awk 'BEGIN{FS="[=,]"}{printf "{\"%s\":\"%s\",\"%s\":\"%s\"}", $1, $2, $3, $4}')
+else
+    request_json="{}"
+fi
+
+if [[ -n "${limits}" ]]; then
+    limit_json=$(echo $limits | awk 'BEGIN{FS="[=,]"}{printf "{\"%s\":\"%s\",\"%s\":\"%s\"}", $1, $2, $3, $4}')
+else
+    limit_json="{}"
+fi
+
 # sometime ns default is empty from this command so default if it is
 namespace=$(kubectl config view --minify --output 'jsonpath={..namespace}')
 if [ -z "$namespace" ]; then namespace="default"; fi;
 
+podname=windows-debug-${RANDOM}
+
 overrides=$(cat <<-JSON
 {
   "spec": {
+    "containers": [
+      {
+        "name": "$podname",
+        "image": "$image",
+        "resources": {
+          "requests": $request_json,
+          "limits": $limit_json
+        }
+      }
+    ],
     "nodeName": "$nodename",
     "nodeSelector": {
       "kubernetes.io/os": "windows"
@@ -58,9 +96,10 @@ overrides=$(cat <<-JSON
 JSON
 )
 
-kubectl run windows-debug-${RANDOM} \
+kubectl run $podname \
   -it --rm -n $namespace --image $image \
   --image-pull-policy=Always \
   --restart=Never --overrides "$overrides" \
+  --override-type=strategic \
   --pod-running-timeout=15m0s \
   --command -- powershell
